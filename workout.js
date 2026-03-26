@@ -30,6 +30,12 @@ function updateExercise() {
     p.innerText = (i + 1) + ". " + step;
     stepsDiv.appendChild(p);
   });
+  if (exercises[current].safety) {
+    let safetyDiv = document.createElement("div");
+    safetyDiv.className = "safety-tip";
+    safetyDiv.innerText = "⚠️ Safety: " + exercises[current].safety;
+    stepsDiv.appendChild(safetyDiv);
+  }
   progress.innerText = "Exercise " + (current + 1) + " / " + exercises.length + "  •  " + sessionPoints + " pts";
   document.querySelectorAll(".exercise-item").forEach(item => item.classList.remove("active"));
   document.querySelectorAll(".exercise-item")[current].classList.add("active");
@@ -63,6 +69,9 @@ function nextExercise() {
     current++;
     updateExercise();
     startTimer();
+    if (current === exercises.length - 1) {
+      document.querySelector(".next-btn").innerText = "Finish Workout 🔥";
+    }
   } else {
     clearInterval(timerInterval);
     saveProgress();
